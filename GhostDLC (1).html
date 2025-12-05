@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StallarcClient</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(-45deg, #000000, #1a1a1a, #333333, #000000);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Верхняя панель навигации */
+        .top-nav {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-item {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(90deg, #333333, #555555, #333333);
+            background-size: 200% auto;
+            animation: navShine 4s linear infinite;
+        }
+
+        @keyframes navShine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .nav-item:hover {
+            background: linear-gradient(90deg, #555555, #777777, #555555);
+            background-size: 200% auto;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .nav-divider {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-right {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: bold;
+            background: linear-gradient(90deg, #ff0000, #ff8800, #ff0000);
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: authorShine 3s linear infinite;
+        }
+
+        @keyframes authorShine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        /* Основной контент */
+        .container {
+            flex: 1;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            position: relative;
+        }
+
+        .left-section {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 25px;
+        }
+
+        .right-section {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .title {
+            color: #ffffff;
+            font-size: 48px;
+            font-weight: bold;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            background: linear-gradient(90deg, #ffffff, #a0a0a0, #ffffff);
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShine 3s linear infinite;
+            margin-bottom: 10px;
+        }
+
+        @keyframes textShine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .good-luck-text {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcf7f, #4d96ff);
+            background-size: 300% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: colorfulText 4s linear infinite;
+        }
+
+        @keyframes colorfulText {
+            0%, 100% {
+                background-position: 0% center;
+            }
+            50% {
+                background-position: 100% center;
+            }
+        }
+
+        .download-btn {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 18px 50px;
+            border: none;
+            border-radius: 35px;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .download-btn:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .download-btn:active {
+            animation: clickAnimation 0.3s ease;
+        }
+
+        @keyframes clickAnimation {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(0.95);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .download-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .download-btn:hover::after {
+            transform: translateX(100%);
+        }
+
+        .logo {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 50%;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+            transition: transform 0.5s ease, filter 0.5s ease;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo:hover {
+            transform: scale(1.05) rotate(5deg);
+            filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.5));
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .beta-badge {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffffff;
+            font-size: 64px;
+            font-weight: bold;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+            background: linear-gradient(90deg, #ff0000, #ff8800, #ff0000);
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: betaShine 2s linear infinite;
+            opacity: 0.9;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        @keyframes betaShine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .beta-badge::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -20px;
+            right: -20px;
+            bottom: -10px;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.2) 0%, transparent 70%);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        @media (max-width: 768px) {
+            .top-nav {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px 20px;
+            }
+            
+            .nav-left {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .nav-divider {
+                display: none;
+            }
+            
+            .container {
+                flex-direction: column;
+                gap: 50px;
+                padding: 20px;
+                margin-top: 30px;
+            }
+            
+            .left-section, .right-section {
+                align-items: center;
+                text-align: center;
+            }
+            
+            .title {
+                font-size: 36px;
+            }
+            
+            .beta-badge {
+                font-size: 36px;
+                position: relative;
+                top: auto;
+                left: auto;
+                transform: none;
+                margin-top: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Верхняя панель навигации -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <a href="#" class="nav-item">Главная</a>
+            <span class="nav-divider">•</span>
+            <a href="#" class="nav-item">Пока нету</a>
+            <span class="nav-divider">•</span>
+            <a href="#" class="nav-item">Халяль</a>
+            <span class="nav-divider">•</span>
+            <a href="#" class="nav-item">Алах-бекон</a>
+        </div>
+        <div class="nav-right">
+            By History_original
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <div class="container">
+        <div class="left-section">
+            <h1 class="title">StellarcClient</h1>
+            <div class="good-luck-text">Удачи поиграть!</div>
+            <a href="https://sosihuek.com" class="download-btn">Скачать</a>
+        </div>
+        
+        <div class="right-section">
+            <img src="https://s3.iimg.su/s/05/g9zcGMPxgqg695FOF0f046sUKFLV5z6ELWk0lZ1p.png" alt="Logo" class="logo">
+        </div>
+        
+        <div class="beta-badge">В БЕТА ТЕСТЕ</div>
+    </div>
+    
+    <script>
+        // Добавляем анимацию клика на кнопку
+        document.querySelector('.download-btn').addEventListener('click', function(e) {
+            // Анимация кнопки
+            const btn = this;
+            btn.style.animation = 'none';
+            setTimeout(() => {
+                btn.style.animation = 'clickAnimation 0.3s ease';
+            }, 10);
+            
+            // Создаем эффект частиц
+            for(let i = 0; i < 10; i++) {
+                createParticle(e.clientX, e.clientY);
+            }
+            
+            // Временное сообщение
+            const message = document.createElement('div');
+            message.textContent = 'Начинаем загрузку...';
+            message.style.position = 'fixed';
+            message.style.bottom = '30px';
+            message.style.left = '50%';
+            message.style.transform = 'translateX(-50%)';
+            message.style.color = '#fff';
+            message.style.fontSize = '18px';
+            message.style.fontWeight = 'bold';
+            message.style.background = 'rgba(0,0,0,0.7)';
+            message.style.padding = '10px 20px';
+            message.style.borderRadius = '20px';
+            message.style.zIndex = '1000';
+            message.style.animation = 'fadeInOut 3s ease forwards';
+            
+            document.body.appendChild(message);
+            
+            setTimeout(() => {
+                message.remove();
+            }, 3000);
+        });
+        
+        // Анимация для навигационных элементов
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+        
+        function createParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.width = '10px';
+            particle.style.height = '10px';
+            particle.style.background = 'radial-gradient(circle, #fff, #a0a0a0)';
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            particle.style.zIndex = '1000';
+            particle.style.boxShadow = '0 0 10px rgba(255,255,255,0.8)';
+            
+            document.body.appendChild(particle);
+            
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 2 + Math.random() * 4;
+            const vx = Math.cos(angle) * speed;
+            const vy = Math.sin(angle) * speed;
+            
+            let opacity = 1;
+            const animation = setInterval(() => {
+                particle.style.left = parseFloat(particle.style.left) + vx + 'px';
+                particle.style.top = parseFloat(particle.style.top) + vy + 'px';
+                opacity -= 0.02;
+                particle.style.opacity = opacity;
+                particle.style.transform = `scale(${opacity})`;
+                
+                if(opacity <= 0) {
+                    clearInterval(animation);
+                    particle.remove();
+                }
+            }, 16);
+        }
+        
+        // Стили для анимации сообщения
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInOut {
+                0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+                20% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
